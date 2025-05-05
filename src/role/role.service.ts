@@ -4,6 +4,7 @@ import { Role } from 'src/entity/role.entity';
 import { In, Repository } from 'typeorm';
 import { RoleDto } from './dto/role.dto';
 import { Permission } from 'src/entity/permission.entity';
+import { UpdateRoleDto } from './dto/update-role-dto';
 
 @Injectable()
 export class RoleService {
@@ -17,7 +18,28 @@ export class RoleService {
     const { roleName } = dto;
 
     const role = this.roleRepo.create({ roleName });
-    return await this.roleRepo.save(role);
+    const data = await this.roleRepo.save(role);
+    return {
+      status: 200,
+      success: true,
+      data: data,
+    };
+  }
+
+  async updateRole(id: string, updateRoleDto: UpdateRoleDto) {
+    const role = await this.roleRepo.findOne({ where: { id: Number(id) } });
+    if (!role) {
+      throw new NotFoundException('Role Not Found.');
+    }
+
+    Object.assign(role, updateRoleDto);
+    const data = this.roleRepo.save(role);
+
+    return {
+      status: 201,
+      success: true,
+      data: data,
+    };
   }
 
   async getRole() {
@@ -26,6 +48,28 @@ export class RoleService {
       status: 200,
       success: true,
       data: role,
+    };
+  }
+
+  async deleteRole(id: string) {
+    const role = await this.roleRepo.findOne({ where: { id: Number(id) } });
+
+    if (!role) {
+      return {
+        status: 404,
+        success: false,
+        message: 'Role not found.',
+      };
+    }
+
+    role.permissions = [];
+    await this.roleRepo.save(role);
+
+    await this.roleRepo.delete(id);
+    return {
+      status: 200,
+      success: true,
+      message: 'Role deleted successully.',
     };
   }
 
