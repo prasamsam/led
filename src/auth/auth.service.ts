@@ -59,9 +59,11 @@ export class AuthService {
             permissions: user.role.permissions,
           },
         });
+
+        const { password, ...user_detail } = user;
         return {
           success: true,
-          data: user,
+          data: user_detail,
           token: token,
         };
       }
