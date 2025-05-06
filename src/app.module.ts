@@ -9,6 +9,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { Role } from './entity/role.entity';
 import { Permission } from './entity/permission.entity';
+import { CvController } from './cv/cv.controller';
+import { CvModule } from './cv/cv.module';
+import { Cv } from './entity/cv.entity';
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { Permission } from './entity/permission.entity';
       username: 'root',
       password: '',
       database: 'led',
-      entities: [User, Role, Permission],
+      entities: [User, Role, Permission, Cv],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -27,8 +30,9 @@ import { Permission } from './entity/permission.entity';
     UserModule,
     RoleModule,
     PermissionModule,
+    CvModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, CvController],
   providers: [AppService],
 })
 export class AppModule {}
