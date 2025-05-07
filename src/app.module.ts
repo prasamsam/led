@@ -12,6 +12,16 @@ import { Permission } from './entity/permission.entity';
 import { CvController } from './cv/cv.controller';
 import { CvModule } from './cv/cv.module';
 import { Cv } from './entity/cv.entity';
+import { CategoryController } from './category/category.controller';
+import { CategoryModule } from './category/category.module';
+import { SourceController } from './source/source.controller';
+import { SourceModule } from './source/source.module';
+import { StatusController } from './status/status.controller';
+import { StatusModule } from './status/status.module';
+import { SkillsController } from './skills/skills.controller';
+import { SkillsModule } from './skills/skills.module';
+import { Source } from './entity/source.entity';
+import { Status } from './entity/status.entity';
 
 @Module({
   imports: [
@@ -22,7 +32,7 @@ import { Cv } from './entity/cv.entity';
       username: 'root',
       password: '',
       database: 'led',
-      entities: [User, Role, Permission, Cv],
+      entities: [User, Role, Permission, Cv, Status, Source],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -31,8 +41,21 @@ import { Cv } from './entity/cv.entity';
     RoleModule,
     PermissionModule,
     CvModule,
+    CategoryModule,
+    SourceModule,
+    StatusModule,
+    SkillsModule,
+    SourceModule,
   ],
-  controllers: [AppController, CvController],
+  controllers: [
+    AppController,
+    CvController,
+    CategoryController,
+    SourceController,
+    StatusController,
+    SkillsController,
+    SourceController,
+  ],
   providers: [AppService],
 })
 export class AppModule {}
